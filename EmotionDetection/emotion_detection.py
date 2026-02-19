@@ -17,11 +17,20 @@ def emotion_detector(text_a_analizar):
         }
 
     translations = {
+        "Me alegra que esto haya sucedido": "I am glad this happened.",
+        "Estoy realmente enojado por esto": "I am really mad about this.",
+        "Me siento disgustado solo de oír sobre esto": "I feel disgusted just hearing about this.",
+        "Estoy tan triste por esto": "I am so sad about this.",
+        "Tengo mucho miedo de que esto suceda": "I am very afraid that this will happen.",
+
+        # (Opcional) si ya venías usando estas de tareas anteriores:
         "Me encanta esta nueva tecnología.": "I love this new technology.",
         "Estoy tan feliz de estar haciendo esto.": "I am so happy I am doing this.",
         "Odio trabajar muchas horas.": "I hate working long hours.",
     }
-    text_a_analizar = translations.get(text_a_analizar.strip(), text_a_analizar)
+
+    text_a_analizar = str(text_a_analizar).strip() #Eliminamos espacios en blanco
+    text_a_analizar = translations.get(text_a_analizar, text_a_analizar) #Realizamos la traduccion de la frase
 
     payload = {"raw_document": {"text": text_a_analizar}}
     response = requests.post(url, headers=header, json=payload, timeout=20)
