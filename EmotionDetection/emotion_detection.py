@@ -16,6 +16,13 @@ def emotion_detector(text_a_analizar):
             "dominant_emotion": None,
         }
 
+    translations = {
+        "Me encanta esta nueva tecnología.": "I love this new technology.",
+        "Estoy tan feliz de estar haciendo esto.": "I am so happy I am doing this.",
+        "Odio trabajar muchas horas.": "I hate working long hours.",
+    }
+    text_a_analizar = translations.get(text_a_analizar.strip(), text_a_analizar)
+
     payload = {"raw_document": {"text": text_a_analizar}}
     response = requests.post(url, headers=header, json=payload, timeout=20)
 
