@@ -1,6 +1,15 @@
 import json
 import requests
 
+none_payload = {
+        "anger": None,
+        "disgust": None,
+        "fear": None,
+        "joy": None,
+        "sadness": None,
+        "dominant_emotion": None,
+    }
+
 url = "https://sn-watson-emotion.labs.skills.network/v1/watson.runtime.nlp.v1/NlpService/EmotionPredict"
 header = {"grpc-metadata-mm-model-id": "emotion_aggregated-workflow_lang_en_stock"}
 
@@ -34,6 +43,14 @@ def emotion_detector(text_a_analizar):
 
     payload = {"raw_document": {"text": text_a_analizar}}
     response = requests.post(url, headers=header, json=payload, timeout=20)
+
+    #Manejo de errores  404
+    if response.status_code == 400:
+        return none_payload
+
+    # Otros errores
+    if response.status_code != 200:
+        return none_payload
 
     # Si el servicio responde con error, devolvemos el formato esperado con None
     if response.status_code != 200:
